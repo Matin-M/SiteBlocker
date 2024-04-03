@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blocked</title>
+    <style>
+      body {
+        font-family: 'Arial', sans-serif;
+        text-align: center;
+        padding-top: 50px;
+      }
+      .icon-block {
+        width: 100px;
+        height: 100px;
+        margin: 0 auto 30px;
+        background-image: url('assets/blocked.png'); /* Replace with your icon path */
+        background-size: cover;
+      }
+      .message {
+        margin-bottom: 20px;
+      }
+      button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      button:hover {
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="icon-block"></div>
+    <h1>Blocked</h1>
+    <p class="message">
+      The website you're trying to visit is blocked by your browser settings.
+    </p>
+    <button onclick="history.back()">Go Back</button>
+  </body>
+</html>

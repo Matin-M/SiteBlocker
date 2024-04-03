@@ -1,3 +1,4 @@
+/* eslint-env node */
 module.exports = {
   extends: ['prettier', 'eslint:recommended', 'plugin:import/recommended'],
   plugins: ['prettier'],
@@ -18,9 +19,6 @@ module.exports = {
     es2021: true,
     jquery: true,
     serviceworker: true
-  },
-   globals: {
-    chrome: 'readonly'
   },
   overrides: [],
   parserOptions: {

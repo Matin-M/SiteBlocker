@@ -1,23 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
 
 function App() {
+  const [blockedSites, setBlockedSites] = useState([]);
+
+  useEffect(() => {
+    chrome.storage.sync.get('blockedSites', ({ blockedSites }) => {
+      if (blockedSites) {
+        setBlockedSites(blockedSites);
+      }
+    });
+  }, []);
+
+  const addSite = (site) => {
+    const newSites = [...blockedSites, site];
+    chrome.storage.sync.set({ blockedSites: newSites }, () => {
+      setBlockedSites(newSites);
+    });
+  };
+
+  const removeSite = (siteToRemove) => {
+    const newSites = blockedSites.filter((site) => site !== siteToRemove);
+    chrome.storage.sync.set({ blockedSites: newSites }, () => {
+      setBlockedSites(newSites);
+    });
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Blocked Sites</h1>
+      {blockedSites.map((site, index) => (
+        <div key={index}>
+          {site} <button onClick={() => removeSite(site)}>Remove</button>
+        </div>
+      ))}
     </div>
   );
 }

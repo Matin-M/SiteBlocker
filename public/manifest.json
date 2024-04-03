@@ -1,19 +1,32 @@
 {
   "manifest_version": 3,
-  "name": "Site Blocker",
-  "version": "1.0",
-  "description": "Block specified websites",
-  "action": {
-    "default_popup": "index.html"
-  },
-  "permissions": ["storage", "tabs", "<all_urls>"],
+  "name": "SiteBlocker",
+  "version": "0.1.0",
+  "description": "Blocks websites specified by the user",
+  // At some point it would be nice to have something that tracks all of your usage and gives you a report at the end of the day
+  "permissions": [
+    "storage",
+    "activeTab",
+    "system.cpu",
+    "system.memory",
+    "system.storage",
+    "system.display",
+    "tabs",
+    "scripting"
+  ],
+  "host_permissions": ["http://*/*", "https://*/*"],
   "background": {
     "service_worker": "background.js"
   },
+  "action": {
+    "default_popup": "index.html"
+  }
+  /*
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
       "js": ["contentScript.js"]
     }
   ]
+  */
 }
