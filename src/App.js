@@ -29,8 +29,12 @@ const theme = createTheme({
     }
   },
   typography: {
-    h4: {
-      fontWeight: 'bold'
+    h1: {
+      fontWeight: 'bold',
+      fontSize: '2rem'
+    },
+    allVariants: {
+      whiteSpace: 'nowrap'
     }
   }
 });
@@ -101,11 +105,11 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Container maxWidth="sm">
+      <Container maxWidth="md">
         <Typography variant="h4" component="h1" gutterBottom>
           Blocked Sites
         </Typography>
-        <Box mb={2}>
+        <Box mb={2} sx={{ display: 'flex', flexDirection: 'column' }}>
           <TextField
             label="Add a site to block"
             variant="outlined"
