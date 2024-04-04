@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
@@ -11,8 +12,17 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import Box from '@mui/material/Box';
 import DeleteIcon from '@mui/icons-material/Delete';
+import Paper from '@mui/material/Paper';
+import PropTypes from 'prop-types';
 
 const theme = createTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 900
+    }
+  },
   palette: {
     primary: {
       main: '#556cd6'
@@ -24,6 +34,41 @@ const theme = createTheme({
     }
   }
 });
+
+const BlockedSitesList = ({ blockedSites, onRemoveSite }) => (
+  <Paper
+    sx={{
+      maxHeight: 300,
+      overflow: 'auto',
+      borderColor: 'divider',
+      borderWidth: 1,
+      borderStyle: 'solid',
+      mb: 2
+    }}
+  >
+    <List>
+      {blockedSites.map((site, index) => (
+        <ListItem key={index} divider>
+          <ListItemText primary={site} />
+          <ListItemSecondaryAction>
+            <IconButton
+              edge="end"
+              aria-label="delete"
+              onClick={() => onRemoveSite(site)}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </ListItemSecondaryAction>
+        </ListItem>
+      ))}
+    </List>
+  </Paper>
+);
+
+BlockedSitesList.propTypes = {
+  blockedSites: PropTypes.arrayOf(PropTypes.string).isRequired,
+  onRemoveSite: PropTypes.func.isRequired
+};
 
 function App() {
   const [blockedSites, setBlockedSites] = useState([]);
@@ -55,11 +100,12 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline />
       <Container maxWidth="sm">
         <Typography variant="h4" component="h1" gutterBottom>
           Blocked Sites
         </Typography>
-        <Box mb={2} display="flex" flexDirection="column" alignItems="center">
+        <Box mb={2}>
           <TextField
             label="Add a site to block"
             variant="outlined"
@@ -73,22 +119,10 @@ function App() {
             Add
           </Button>
         </Box>
-        <List>
-          {blockedSites.map((site, index) => (
-            <ListItem key={index}>
-              <ListItemText primary={site} />
-              <ListItemSecondaryAction>
-                <IconButton
-                  edge="end"
-                  aria-label="delete"
-                  onClick={() => handleRemoveSite(site)}
-                >
-                  <DeleteIcon />
-                </IconButton>
-              </ListItemSecondaryAction>
-            </ListItem>
-          ))}
-        </List>
+        <BlockedSitesList
+          blockedSites={blockedSites}
+          onRemoveSite={handleRemoveSite}
+        />
       </Container>
     </ThemeProvider>
   );
