@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
@@ -9,13 +10,26 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import Box from '@mui/material/Box';
+import DeleteIcon from '@mui/icons-material/Delete';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#556cd6'
+    }
+  },
+  typography: {
+    h4: {
+      fontWeight: 'bold'
+    }
+  }
+});
 
 function App() {
   const [blockedSites, setBlockedSites] = useState([]);
   const [newSite, setNewSite] = useState('');
 
   useEffect(() => {
-    // Load the blocked sites from storage
     chrome.storage.sync.get('blockedSites', ({ blockedSites }) => {
       if (blockedSites) {
         setBlockedSites(blockedSites);
@@ -40,45 +54,43 @@ function App() {
   };
 
   return (
-    <Container maxWidth="sm">
-      <Typography variant="h4" component="h1" gutterBottom>
-        Blocked Sites
-      </Typography>
-      <Box mb={2}>
-        <TextField
-          label="Add a site to block"
-          variant="outlined"
-          fullWidth
-          value={newSite}
-          onChange={(e) => setNewSite(e.target.value)}
-          onKeyPress={(e) => e.key === 'Enter' && handleAddSite()}
-        />
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleAddSite}
-          style={{ marginTop: 8 }}
-        >
-          Add
-        </Button>
-      </Box>
-      <List>
-        {blockedSites.map((site, index) => (
-          <ListItem key={index}>
-            <ListItemText primary={site} />
-            <ListItemSecondaryAction>
-              <IconButton
-                edge="end"
-                aria-label="delete"
-                onClick={() => handleRemoveSite(site)}
-              >
-                <Button />
-              </IconButton>
-            </ListItemSecondaryAction>
-          </ListItem>
-        ))}
-      </List>
-    </Container>
+    <ThemeProvider theme={theme}>
+      <Container maxWidth="sm">
+        <Typography variant="h4" component="h1" gutterBottom>
+          Blocked Sites
+        </Typography>
+        <Box mb={2} display="flex" flexDirection="column" alignItems="center">
+          <TextField
+            label="Add a site to block"
+            variant="outlined"
+            fullWidth
+            value={newSite}
+            onChange={(e) => setNewSite(e.target.value)}
+            onKeyPress={(e) => e.key === 'Enter' && handleAddSite()}
+            sx={{ mb: 2 }}
+          />
+          <Button variant="contained" color="primary" onClick={handleAddSite}>
+            Add
+          </Button>
+        </Box>
+        <List>
+          {blockedSites.map((site, index) => (
+            <ListItem key={index}>
+              <ListItemText primary={site} />
+              <ListItemSecondaryAction>
+                <IconButton
+                  edge="end"
+                  aria-label="delete"
+                  onClick={() => handleRemoveSite(site)}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </ListItemSecondaryAction>
+            </ListItem>
+          ))}
+        </List>
+      </Container>
+    </ThemeProvider>
   );
 }
 
