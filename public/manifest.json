@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "SiteBlocker",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Blocks websites specified by the user",
   // At some point it would be nice to have something that tracks all of your usage and gives you a report at the end of the day
   "permissions": [

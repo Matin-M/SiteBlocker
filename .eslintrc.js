@@ -1,7 +1,13 @@
 /* eslint-env node */
 module.exports = {
-  extends: ['prettier', 'eslint:recommended', 'plugin:import/recommended'],
-  plugins: ['prettier'],
+  extends: [
+    'prettier',
+    'eslint:recommended',
+    'plugin:import/recommended',
+    'plugin:react/recommended',
+    'plugin:react-hooks/recommended'
+  ],
+  plugins: ['prettier', 'react', 'react-hooks'],
   rules: {
     'prettier/prettier': ['error'],
     'no-var': ['error'],
@@ -23,6 +29,14 @@ module.exports = {
   overrides: [],
   parserOptions: {
     ecmaVersion: 'latest',
-    sourceType: 'module'
+    sourceType: 'module',
+    ecmaFeatures: {
+      jsx: true
+    }
+  },
+  settings: {
+    react: {
+      version: 'detect'
+    }
   }
 };
