@@ -119,9 +119,22 @@ function App() {
             onKeyPress={(e) => e.key === 'Enter' && handleAddSite()}
             sx={{ mb: 2 }}
           />
-          <Button variant="contained" color="primary" onClick={handleAddSite}>
-            Add
-          </Button>
+          <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2 }}>
+            <Button variant="contained" color="primary" onClick={handleAddSite}>
+              Add Site
+            </Button>
+            <Button
+              variant="contained"
+              color="warning"
+              onClick={() => {
+                chrome.storage.sync.set({ blockedSites: [] }, () => {
+                  setBlockedSites([]);
+                });
+              }}
+            >
+              Delete All
+            </Button>
+          </Box>
         </Box>
         <BlockedSitesList
           blockedSites={blockedSites}
