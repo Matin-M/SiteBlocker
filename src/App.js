@@ -31,6 +31,9 @@ const theme = createTheme({
   palette: {
     primary: {
       main: '#556cd6'
+    },
+    background: {
+      default: '#d47770'
     }
   },
   typography: {
@@ -86,13 +89,20 @@ const ConfirmationDialog = ({ open, onClose, onConfirm }) => (
     onClose={onClose}
     aria-labelledby="confirmation-dialog-title"
     aria-describedby="confirmation-dialog-description"
+    justifyContent="center"
   >
     <DialogTitle id="confirmation-dialog-title">
       {'Confirm Removal'}
     </DialogTitle>
     <DialogContent>
-      <DialogContentText id="confirmation-dialog-description" sx={{ mb: 2 }}>
-        Are you sure you want to unblock this site?
+      <DialogContentText
+        id="confirmation-dialog-description"
+        sx={{
+          wordBreak: 'break-word',
+          overflowWrap: 'break-word'
+        }}
+      >
+        Remove site?
       </DialogContentText>
     </DialogContent>
     <DialogActions>
@@ -141,37 +151,30 @@ function App() {
     });
   };
 
-  // Function to open the confirmation dialog for individual site removal
   const openRemoveSiteDialog = (site) => {
     setSiteToRemove(site);
-    setDialogType('removeSite'); // Set dialog type to 'removeSite'
+    setDialogType('removeSite');
     setDialogOpen(true);
   };
 
-  // Function to open the confirmation dialog for "Delete All" action
   const openDeleteAllDialog = () => {
-    setDialogType('deleteAll'); // Set dialog type to 'deleteAll'
+    setDialogType('deleteAll');
     setDialogOpen(true);
   };
 
-  // Function for what happens when "Yes, Remove" is clicked
   const handleConfirmAction = () => {
     if (dialogType === 'removeSite') {
-      // Logic for individual site removal
       handleRemoveSiteConfirmed();
     } else if (dialogType === 'deleteAll') {
-      // Logic for "Delete All" action
       handleDeleteAllConfirmed();
     }
   };
 
-  // Function to remove the individual site after confirmation
   const handleRemoveSiteConfirmed = () => {
     handleRemoveSite(siteToRemove);
     setDialogOpen(false);
   };
 
-  // Function to clear all sites after confirmation
   const handleDeleteAllConfirmed = () => {
     chrome.storage.sync.set({ blockedSites: [] }, () => {
       setBlockedSites([]);
@@ -186,17 +189,16 @@ function App() {
         maxWidth="md"
         style={{
           minWidth: '360px',
-          minHeight: '400px',
           display: 'flex',
           justifyContent: 'center'
         }}
       >
         <Box
           sx={{
-            width: '100%', // Use 100% of the Container width
+            width: '100%',
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center' // Centers items horizontally in the column direction
+            alignItems: 'center'
           }}
         >
           <ConfirmationDialog
@@ -244,7 +246,7 @@ function App() {
           </Box>
           <BlockedSitesList
             blockedSites={blockedSites}
-            onRemoveSite={openRemoveSiteDialog}
+            openRemoveSiteDialog={openRemoveSiteDialog}
           />
         </Box>
       </Container>
