@@ -188,7 +188,7 @@ function App() {
       <Container
         maxWidth="md"
         style={{
-          minWidth: '360px',
+          minWidth: '300px',
           display: 'flex',
           justifyContent: 'center'
         }}
@@ -206,7 +206,13 @@ function App() {
             onClose={() => setDialogOpen(false)}
             onConfirm={handleConfirmAction}
           />
-          <Typography variant="h4" component="h1" gutterBottom>
+          <Typography
+            variant="h4"
+            component="h1"
+            gutterBottom
+            fontWeight={'bold'}
+            fontFamily={'monospace'}
+          >
             SiteBlocker
           </Typography>
           <Box

@@ -1,20 +1,9 @@
 {
   "manifest_version": 3,
   "name": "SiteBlocker",
-  "version": "1.0.1",
-  "description": "Blocks websites specified by the user",
-  // At some point it would be nice to have something that tracks all of your usage and gives you a report at the end of the day
-  "permissions": [
-    "storage",
-    "activeTab",
-    "system.cpu",
-    "system.memory",
-    "system.storage",
-    "system.display",
-    "tabs",
-    "scripting"
-  ],
-  "host_permissions": ["http://*/*", "https://*/*"],
+  "version": "1.0.0",
+  "description": "Blocks user specified websites to increase productivity",
+  "permissions": ["storage", "activeTab", "tabs", "scripting"],
   "background": {
     "service_worker": "background.js"
   },
