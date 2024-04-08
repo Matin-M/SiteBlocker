@@ -5,20 +5,14 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import Box from '@mui/material/Box';
-import DeleteIcon from '@mui/icons-material/Delete';
-import Paper from '@mui/material/Paper';
 import PropTypes from 'prop-types';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import BlockedSitesList from './components/BlockedSitesList';
 
 const theme = createTheme({
   breakpoints: {
@@ -46,42 +40,6 @@ const theme = createTheme({
     }
   }
 });
-
-const BlockedSitesList = ({ blockedSites, openRemoveSiteDialog }) => (
-  <Paper
-    sx={{
-      maxHeight: 300,
-      width: '100%',
-      overflow: 'auto',
-      borderColor: 'divider',
-      borderWidth: 1,
-      borderStyle: 'solid',
-      mb: 2
-    }}
-  >
-    <List>
-      {blockedSites.map((site, index) => (
-        <ListItem key={index} divider>
-          <ListItemText primary={site} />
-          <ListItemSecondaryAction>
-            <IconButton
-              edge="end"
-              aria-label="delete"
-              onClick={() => openRemoveSiteDialog(site)}
-            >
-              <DeleteIcon />
-            </IconButton>
-          </ListItemSecondaryAction>
-        </ListItem>
-      ))}
-    </List>
-  </Paper>
-);
-
-BlockedSitesList.propTypes = {
-  blockedSites: PropTypes.arrayOf(PropTypes.string).isRequired,
-  openRemoveSiteDialog: PropTypes.func.isRequired
-};
 
 const ConfirmationDialog = ({ open, onClose, onConfirm }) => (
   <Dialog
