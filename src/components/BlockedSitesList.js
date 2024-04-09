@@ -6,12 +6,10 @@ import {
   ListItemText,
   ListItemSecondaryAction,
   IconButton,
-  Avatar,
   Typography,
   Box
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import DomainIcon from '@mui/icons-material/Domain';
 import PropTypes from 'prop-types';
 
 const BlockedSitesList = ({ blockedSites, openRemoveSiteDialog }) => (
