@@ -3,7 +3,7 @@
   "name": "SiteBlocker",
   "version": "1.0.0",
   "description": "Blocks user specified websites to increase productivity",
-  "permissions": ["storage", "activeTab", "tabs", "scripting"],
+  "permissions": ["storage", "tabs"],
   "background": {
     "service_worker": "background.js"
   },
