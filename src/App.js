@@ -74,7 +74,7 @@ function App() {
   };
 
   const openDeleteAllDialog = () => {
-    setDialogType('deleteAll');
+    setSiteToRemove('Delete All');
     setDialogOpen(true);
   };
 

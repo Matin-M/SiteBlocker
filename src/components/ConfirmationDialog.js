@@ -16,7 +16,7 @@ const ConfirmationDialog = ({ open, onClose, onConfirm, siteToRemove }) => {
       onConfirm();
       setConfirmText('');
     } else {
-      alert('The entered site does not match. Please try again.');
+      alert('The entered text does not match. Please try again.');
     }
   };
 
@@ -24,12 +24,16 @@ const ConfirmationDialog = ({ open, onClose, onConfirm, siteToRemove }) => {
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>Confirm Removal</DialogTitle>
       <DialogContent>
-        <DialogContentText>Type: {siteToRemove}</DialogContentText>
+        <DialogContentText>{`Type "${siteToRemove}"`}</DialogContentText>
         <TextField
           autoFocus
           margin="dense"
           id="name"
-          label="Site Name"
+          label={
+            siteToRemove.includes('Delete All')
+              ? 'Enter Confirmation'
+              : 'Site Name'
+          }
           type="text"
           fullWidth
           variant="standard"
@@ -51,7 +55,8 @@ ConfirmationDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onConfirm: PropTypes.func.isRequired,
-  siteToRemove: PropTypes.string.isRequired
+  siteToRemove: PropTypes.string.isRequired,
+  dialogType: PropTypes.string.isRequired
 };
 
 export default ConfirmationDialog;
