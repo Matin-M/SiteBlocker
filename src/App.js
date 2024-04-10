@@ -8,6 +8,7 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import BlockedSitesList from './components/BlockedSitesList';
 import ConfirmationDialog from './components/ConfirmationDialog';
+import Settings from './components/Settings';
 
 const theme = createTheme({
   breakpoints: {
@@ -42,6 +43,7 @@ function App() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogType, setDialogType] = useState('');
   const [siteToRemove, setSiteToRemove] = useState('');
+  const [viewSettings, setViewSettings] = useState(false);
 
   useEffect(() => {
     chrome.storage.sync.get('blockedSites', ({ blockedSites }) => {
@@ -109,31 +111,10 @@ function App() {
           justifyContent: 'center'
         }}
       >
-        <Box
-          sx={{
-            width: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center'
-          }}
-        >
-          <ConfirmationDialog
-            open={dialogOpen}
-            onClose={() => setDialogOpen(false)}
-            onConfirm={handleConfirmAction}
-            siteToRemove={siteToRemove}
-          />
-          <Typography
-            variant="h4"
-            component="h1"
-            gutterBottom
-            fontWeight={'bold'}
-            fontFamily={'monospace'}
-          >
-            SiteBlocker
-          </Typography>
+        {viewSettings ? (
+          <Settings />
+        ) : (
           <Box
-            mb={2}
             sx={{
               width: '100%',
               display: 'flex',
@@ -141,37 +122,62 @@ function App() {
               alignItems: 'center'
             }}
           >
-            <TextField
-              label="Add a site to block"
-              variant="outlined"
-              fullWidth
-              value={newSite}
-              onChange={(e) => setNewSite(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && handleAddSite()}
-              sx={{ mb: 2 }}
+            <ConfirmationDialog
+              open={dialogOpen}
+              onClose={() => setDialogOpen(false)}
+              onConfirm={handleConfirmAction}
+              siteToRemove={siteToRemove}
             />
-            <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2 }}>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleAddSite}
-              >
-                Add Site
-              </Button>
-              <Button
-                variant="contained"
-                color="warning"
-                onClick={openDeleteAllDialog}
-              >
-                Delete All
-              </Button>
+            <Typography
+              variant="h4"
+              component="h1"
+              gutterBottom
+              fontWeight={'bold'}
+              fontFamily={'monospace'}
+            >
+              SiteBlocker
+            </Typography>
+            <Box
+              mb={2}
+              sx={{
+                width: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center'
+              }}
+            >
+              <TextField
+                label="Add a site to block"
+                variant="outlined"
+                fullWidth
+                value={newSite}
+                onChange={(e) => setNewSite(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleAddSite()}
+                sx={{ mb: 2 }}
+              />
+              <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2 }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleAddSite}
+                >
+                  Add Site
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => setViewSettings(true)}
+                >
+                  Settings
+                </Button>
+              </Box>
             </Box>
+            <BlockedSitesList
+              blockedSites={blockedSites}
+              openRemoveSiteDialog={openRemoveSiteDialog}
+            />
           </Box>
-          <BlockedSitesList
-            blockedSites={blockedSites}
-            openRemoveSiteDialog={openRemoveSiteDialog}
-          />
-        </Box>
+        )}
       </Container>
     </ThemeProvider>
   );
