@@ -112,7 +112,7 @@ function App() {
         }}
       >
         {viewSettings ? (
-          <Settings />
+          <Settings setViewSettings={setViewSettings} />
         ) : (
           <Box
             sx={{
@@ -174,7 +174,7 @@ function App() {
             </Box>
             <BlockedSitesList
               blockedSites={blockedSites}
-              openRemoveSiteDialog={openRemoveSiteDialog}
+              onDelete={openRemoveSiteDialog}
             />
           </Box>
         )}
