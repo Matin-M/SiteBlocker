@@ -55,7 +55,7 @@ const Settings = ({ setViewSettings }) => {
         Settings
       </Typography>
       <TextField
-        label="Add a youtube channel to whitelist"
+        label="Enter a youtube channel to whitelist"
         variant="outlined"
         fullWidth
         value={newChannel}
