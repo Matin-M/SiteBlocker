@@ -12,24 +12,32 @@ function getBrowser() {
   }
 }
 
-function handleDOMContentLoaded() {
-  const channelNameElement = document.querySelector('a.yt-simple-endpoint');
-  const channelName = channelNameElement
-    ? channelNameElement.textContent.trim()
-    : null;
-
-  chrome.storage.sync.get(['allowedChannels'], function (result) {
-    const allowedChannels = result.allowedChannels || [];
-    if (!allowedChannels.includes(channelName)) {
-      getBrowser().runtime.sendMessage({ action: 'blockPage' });
-    } else {
-      console.log(`Access granted to: ${channelName}`);
+function handlePageLoad() {
+  const observer = new MutationObserver((mutations, obs) => {
+    const channelNameElement = document.querySelector(
+      'a.yt-simple-endpoint.style-scope.yt-formatted-string'
+    );
+    if (channelNameElement) {
+      const channelName = channelNameElement.textContent.trim();
+      getBrowser().storage.sync.get(['allowedChannels'], function (result) {
+        const allowedChannels = result.allowedChannels || [];
+        if (!allowedChannels.includes(channelName)) {
+          getBrowser().runtime.sendMessage({ action: 'blockPage' });
+          console.log(`Access denied to: ${channelName}`);
+          console.log('allowedChannels', allowedChannels);
+        } else {
+          console.log(`Access granted to: ${channelName}`);
+          console.log('allowedChannels', allowedChannels);
+        }
+      });
+      obs.disconnect();
     }
+  });
+
+  observer.observe(document, {
+    childList: true,
+    subtree: true
   });
 }
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', handleDOMContentLoaded);
-} else {
-  handleDOMContentLoaded();
-}
+window.onload = handlePageLoad;
