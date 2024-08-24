@@ -13,30 +13,34 @@ function getBrowser() {
 }
 
 function handlePageLoad() {
-  const observer = new MutationObserver((mutations, obs) => {
-    const channelNameElement = document.querySelector(
-      'a.yt-simple-endpoint.style-scope.yt-formatted-string'
-    );
-    if (channelNameElement) {
-      const channelName = channelNameElement.textContent.trim();
-      getBrowser().storage.sync.get(['allowedChannels'], function (result) {
-        const allowedChannels = result.allowedChannels || [];
-        if (!allowedChannels.includes(channelName)) {
-          getBrowser().runtime.sendMessage({ action: 'blockPage' });
-          console.log(`Access denied to: ${channelName}`);
-          console.log('allowedChannels', allowedChannels);
-        } else {
-          console.log(`Access granted to: ${channelName}`);
-          console.log('allowedChannels', allowedChannels);
+  getBrowser().storage.sync.get(['blockedSites'], function (result) {
+    const blockedSites = result.blockedSites || [];
+    if (blockedSites.includes('youtube.com')) {
+      const observer = new MutationObserver((mutations, obs) => {
+        const channelNameElement = document.querySelector(
+          'a.yt-simple-endpoint.style-scope.yt-formatted-string'
+        );
+        if (channelNameElement) {
+          const channelName = channelNameElement.textContent.trim();
+          getBrowser().storage.sync.get(['allowedChannels'], function (result) {
+            const allowedChannels = result.allowedChannels || [];
+            if (!allowedChannels.includes(channelName)) {
+              console.log('Allowed channels:', allowedChannels);
+              getBrowser().runtime.sendMessage({ action: 'blockPage' });
+              console.log(`Access denied to: ${channelName}`);
+            } else {
+              console.log(`Access granted to: ${channelName}`);
+            }
+          });
+          obs.disconnect();
         }
       });
-      obs.disconnect();
-    }
-  });
 
-  observer.observe(document, {
-    childList: true,
-    subtree: true
+      observer.observe(document, {
+        childList: true,
+        subtree: true
+      });
+    }
   });
 }
 
