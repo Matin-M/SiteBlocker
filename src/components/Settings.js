@@ -73,7 +73,7 @@ const Settings = ({ setViewSettings }) => {
           YT Channel Whitelisting
         </Typography>
         <TextField
-          label="Whitelist YT Channel"
+          label="Enter a channel name"
           variant="outlined"
           fullWidth
           value={newChannel}
@@ -84,6 +84,7 @@ const Settings = ({ setViewSettings }) => {
         <BlockedSitesList
           blockedSites={allowedChannels}
           onDelete={handleRemoveChannel}
+          titleText="Whitelisted Channels"
         />
       </Box>
       <Button

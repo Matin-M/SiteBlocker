@@ -12,13 +12,13 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete';
 import PropTypes from 'prop-types';
 
-const BlockedSitesList = ({ blockedSites, onDelete }) => {
+const BlockedSitesList = ({ blockedSites, onDelete, titleText }) => {
   return (
     <Paper
       sx={{ maxHeight: 300, overflow: 'auto', mb: 2, p: 2, width: '100%' }}
     >
       <Typography variant="h7" sx={{ mb: 2 }}>
-        Blocked Sites
+        {titleText ? titleText : 'Blocked Sites'}
       </Typography>
       <List>
         {blockedSites.map((site, index) => (
@@ -46,7 +46,7 @@ const BlockedSitesList = ({ blockedSites, onDelete }) => {
         {blockedSites.length === 0 && (
           <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
             <Typography variant="body1" color="textSecondary">
-              No sites blocked yet.
+              Nothing yet
             </Typography>
           </Box>
         )}
@@ -57,7 +57,8 @@ const BlockedSitesList = ({ blockedSites, onDelete }) => {
 
 BlockedSitesList.propTypes = {
   blockedSites: PropTypes.arrayOf(PropTypes.string).isRequired,
-  onDelete: PropTypes.func.isRequired
+  onDelete: PropTypes.func.isRequired,
+  titleText: PropTypes.string
 };
 
 export default BlockedSitesList;
