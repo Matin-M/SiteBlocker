@@ -54,19 +54,38 @@ const Settings = ({ setViewSettings }) => {
       >
         Settings
       </Typography>
-      <TextField
-        label="Enter a youtube channel to whitelist"
-        variant="outlined"
-        fullWidth
-        value={newChannel}
-        onChange={(e) => setNewChannel(e.target.value)}
-        onKeyPress={(e) => e.key === 'Enter' && handleAddChannel()}
-        sx={{ mb: 2 }}
-      />
-      <BlockedSitesList
-        blockedSites={allowedChannels}
-        onDelete={handleRemoveChannel}
-      />
+      <Box
+        sx={{
+          width: '100%',
+          border: '1px solid black',
+          borderRadius: '4px',
+          padding: '16px',
+          marginBottom: '16px'
+        }}
+      >
+        <Typography
+          variant="subtitle1"
+          component="h2"
+          gutterBottom
+          fontWeight={'bold'}
+          fontFamily={'monospace'}
+        >
+          YT Channel Whitelisting
+        </Typography>
+        <TextField
+          label="Whitelist YT Channel"
+          variant="outlined"
+          fullWidth
+          value={newChannel}
+          onChange={(e) => setNewChannel(e.target.value)}
+          onKeyPress={(e) => e.key === 'Enter' && handleAddChannel()}
+          sx={{ mb: 2 }}
+        />
+        <BlockedSitesList
+          blockedSites={allowedChannels}
+          onDelete={handleRemoveChannel}
+        />
+      </Box>
       <Button
         variant="contained"
         color="primary"
