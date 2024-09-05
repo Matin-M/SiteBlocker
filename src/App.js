@@ -147,7 +147,7 @@ function App() {
               }}
             >
               <TextField
-                label="Add a site to block"
+                label="e.g. instagram.com"
                 variant="outlined"
                 fullWidth
                 value={newSite}

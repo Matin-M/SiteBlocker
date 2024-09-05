@@ -87,13 +87,16 @@ const Settings = ({ setViewSettings }) => {
           titleText="Whitelisted Channels"
         />
       </Box>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => setViewSettings(false)}
-      >
-        Back
-      </Button>
+      <Box sx={{ pb: 2 }}>
+        {' '}
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => setViewSettings(false)}
+        >
+          Back
+        </Button>
+      </Box>
     </Box>
   );
 };

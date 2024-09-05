@@ -15,9 +15,19 @@ import PropTypes from 'prop-types';
 const BlockedSitesList = ({ blockedSites, onDelete, titleText }) => {
   return (
     <Paper
-      sx={{ maxHeight: 300, overflow: 'auto', mb: 2, p: 2, width: '100%' }}
+      sx={{
+        maxHeight: 300,
+        overflow: 'auto',
+        mb: 2,
+        p: 2,
+        width: '100%',
+        bgcolor: 'LightGray'
+      }}
     >
-      <Typography variant="h7" sx={{ mb: 2 }}>
+      <Typography
+        variant="h7"
+        sx={{ mb: 2, fontWeight: 'bold', textDecoration: 'underline' }}
+      >
         {titleText ? titleText : 'Blocked Sites'}
       </Typography>
       <List>
