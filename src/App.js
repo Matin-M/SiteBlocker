@@ -9,6 +9,8 @@ import Box from '@mui/material/Box';
 import BlockedSitesList from './components/BlockedSitesList';
 import ConfirmationDialog from './components/ConfirmationDialog';
 import Settings from './components/Settings';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 const theme = createTheme({
   breakpoints: {
@@ -101,44 +103,21 @@ function App() {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Container
-        maxWidth="md"
-        style={{
-          minWidth: '300px',
-          display: 'flex',
-          justifyContent: 'center'
-        }}
-      >
-        {viewSettings ? (
-          <Settings setViewSettings={setViewSettings} />
-        ) : (
-          <Box
-            sx={{
-              width: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center'
-            }}
-          >
-            <ConfirmationDialog
-              open={dialogOpen}
-              onClose={() => setDialogOpen(false)}
-              onConfirm={handleConfirmAction}
-              siteToRemove={siteToRemove}
-            />
-            <Typography
-              variant="h4"
-              component="h1"
-              gutterBottom
-              fontWeight={'bold'}
-              fontFamily={'monospace'}
-            >
-              SiteBlocker
-            </Typography>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Container
+          maxWidth="md"
+          style={{
+            minWidth: '300px',
+            display: 'flex',
+            justifyContent: 'center'
+          }}
+        >
+          {viewSettings ? (
+            <Settings setViewSettings={setViewSettings} />
+          ) : (
             <Box
-              mb={2}
               sx={{
                 width: '100%',
                 display: 'flex',
@@ -146,40 +125,65 @@ function App() {
                 alignItems: 'center'
               }}
             >
-              <TextField
-                label="e.g. instagram.com"
-                variant="outlined"
-                fullWidth
-                value={newSite}
-                onChange={(e) => setNewSite(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleAddSite()}
-                sx={{ mb: 2 }}
+              <ConfirmationDialog
+                open={dialogOpen}
+                onClose={() => setDialogOpen(false)}
+                onConfirm={handleConfirmAction}
+                siteToRemove={siteToRemove}
               />
-              <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2 }}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleAddSite}
-                >
-                  Add Site
-                </Button>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={() => setViewSettings(true)}
-                >
-                  Settings
-                </Button>
+              <Typography
+                variant="h4"
+                component="h1"
+                gutterBottom
+                fontWeight={'bold'}
+                fontFamily={'monospace'}
+              >
+                SiteBlocker
+              </Typography>
+              <Box
+                mb={2}
+                sx={{
+                  width: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center'
+                }}
+              >
+                <TextField
+                  label="e.g. instagram.com"
+                  variant="outlined"
+                  fullWidth
+                  value={newSite}
+                  onChange={(e) => setNewSite(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && handleAddSite()}
+                  sx={{ mb: 2 }}
+                />
+                <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2 }}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleAddSite}
+                  >
+                    Add Site
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => setViewSettings(true)}
+                  >
+                    Settings
+                  </Button>
+                </Box>
               </Box>
+              <BlockedSitesList
+                blockedSites={blockedSites}
+                onDelete={openRemoveSiteDialog}
+              />
             </Box>
-            <BlockedSitesList
-              blockedSites={blockedSites}
-              onDelete={openRemoveSiteDialog}
-            />
-          </Box>
-        )}
-      </Container>
-    </ThemeProvider>
+          )}
+        </Container>
+      </ThemeProvider>
+    </LocalizationProvider>
   );
 }
 
