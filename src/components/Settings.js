@@ -11,10 +11,8 @@ import dayjs from 'dayjs';
 const Settings = ({ setViewSettings }) => {
   const [allowedChannels, setAllowedChannels] = useState([]);
   const [newChannel, setNewChannel] = useState('');
-  const [startTime, setStartTime] = useState(
-    dayjs().startOf('day').format('HH:mm')
-  );
-  const [endTime, setEndTime] = useState(dayjs().endOf('day').format('HH:mm'));
+  const [startTime, setStartTime] = useState(dayjs().startOf('day'));
+  const [endTime, setEndTime] = useState(dayjs().endOf('day'));
 
   useEffect(() => {
     chrome.storage.sync.get(
@@ -23,9 +21,10 @@ const Settings = ({ setViewSettings }) => {
         if (allowedChannels) {
           setAllowedChannels(allowedChannels);
         }
+        console.log('blocktimes', blockTimes);
         if (blockTimes) {
-          setStartTime(blockTimes.startTime);
-          setEndTime(blockTimes.endTime);
+          setStartTime(dayjs(blockTimes.startTime, 'HH:mm'));
+          setEndTime(dayjs(blockTimes.endTime, 'HH:mm'));
         }
       }
     );
@@ -125,36 +124,33 @@ const Settings = ({ setViewSettings }) => {
           fontWeight={'bold'}
           fontFamily={'monospace'}
         >
-          Downtime
+          Blocking hours
         </Typography>
         <Box
           sx={{
             display: 'flex',
             flexDirection: 'column',
+            padding: '16px',
             gap: '16px'
           }}
         >
           <TimePicker
             label="Start Time"
-            value={dayjs(startTime, 'HH:mm')}
+            value={startTime}
             onChange={(newValue) => {
               setStartTime(newValue);
               handleTimeChange(newValue, endTime);
             }}
-            onClose={handleTimeChange}
-            onBlur={handleTimeChange}
             views={['hours']}
             format="HH:00"
           />
           <TimePicker
             label="End Time"
-            value={dayjs(endTime, 'HH:mm')}
+            value={endTime}
             onChange={(newValue) => {
               setEndTime(newValue);
               handleTimeChange(startTime, newValue);
             }}
-            onClose={handleTimeChange}
-            onBlur={handleTimeChange}
             views={['hours']}
             format="HH:00"
           />
