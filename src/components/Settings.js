@@ -153,6 +153,19 @@ const Settings = ({ setViewSettings }) => {
             views={['hours', 'minutes']}
             format="HH:mm"
           />
+          <Button
+            variant="outlined"
+            color="inherit"
+            onClick={() => {
+              const resetStartTime = dayjs().startOf('day');
+              const resetEndTime = dayjs().endOf('day');
+              setStartTime(resetStartTime);
+              setEndTime(resetEndTime);
+              handleTimeChange(resetStartTime, resetEndTime);
+            }}
+          >
+            Reset
+          </Button>
         </Box>
       </Box>
       <Box sx={{ pb: 2 }}>
