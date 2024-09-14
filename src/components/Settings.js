@@ -21,7 +21,6 @@ const Settings = ({ setViewSettings }) => {
         if (allowedChannels) {
           setAllowedChannels(allowedChannels);
         }
-        console.log('blocktimes', blockTimes);
         if (blockTimes) {
           setStartTime(dayjs(blockTimes.startTime, 'HH:mm'));
           setEndTime(dayjs(blockTimes.endTime, 'HH:mm'));
@@ -141,8 +140,8 @@ const Settings = ({ setViewSettings }) => {
               setStartTime(newValue);
               handleTimeChange(newValue, endTime);
             }}
-            views={['hours']}
-            format="HH:00"
+            views={['hours', 'minutes']}
+            format="HH:mm"
           />
           <TimePicker
             label="End Time"
@@ -151,8 +150,8 @@ const Settings = ({ setViewSettings }) => {
               setEndTime(newValue);
               handleTimeChange(startTime, newValue);
             }}
-            views={['hours']}
-            format="HH:00"
+            views={['hours', 'minutes']}
+            format="HH:mm"
           />
         </Box>
       </Box>
