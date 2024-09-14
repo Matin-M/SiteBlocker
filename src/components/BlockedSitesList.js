@@ -21,7 +21,9 @@ const BlockedSitesList = ({ blockedSites, onDelete, titleText }) => {
         mb: 2,
         p: 2,
         width: '100%',
-        bgcolor: 'LightGray'
+        variant: 'outlined',
+        bgcolor: 'inherit',
+        border: '0.5px solid black'
       }}
     >
       <Typography
@@ -46,7 +48,7 @@ const BlockedSitesList = ({ blockedSites, onDelete, titleText }) => {
                 edge="end"
                 aria-label="delete"
                 onClick={() => onDelete(site)}
-                sx={{ color: 'error.main' }}
+                sx={{ color: 'inherit' }}
               >
                 <DeleteIcon />
               </IconButton>

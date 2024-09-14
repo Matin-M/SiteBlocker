@@ -160,15 +160,15 @@ function App() {
                 />
                 <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2 }}>
                   <Button
-                    variant="contained"
-                    color="primary"
+                    variant="outlined"
+                    color="inherit"
                     onClick={handleAddSite}
                   >
                     Add Site
                   </Button>
                   <Button
-                    variant="contained"
-                    color="primary"
+                    variant="outlined"
+                    color="inherit"
                     onClick={() => setViewSettings(true)}
                   >
                     Settings

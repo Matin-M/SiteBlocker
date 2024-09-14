@@ -171,8 +171,8 @@ const Settings = ({ setViewSettings }) => {
       <Box sx={{ pb: 2 }}>
         {' '}
         <Button
-          variant="contained"
-          color="primary"
+          variant="outlined"
+          color="inherit"
           onClick={() => setViewSettings(false)}
         >
           Back
