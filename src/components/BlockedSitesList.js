@@ -27,8 +27,11 @@ const BlockedSitesList = ({ blockedSites, onDelete, titleText }) => {
       }}
     >
       <Typography
-        variant="h7"
-        sx={{ mb: 2, fontWeight: 'bold', textDecoration: 'underline' }}
+        variant="subtitle2"
+        component="h3"
+        gutterBottom
+        fontWeight={'bold'}
+        fontFamily={'monospace'}
       >
         {titleText ? titleText : 'Blocked Sites'}
       </Typography>
