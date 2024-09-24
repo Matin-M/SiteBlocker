@@ -1,3 +1,28 @@
+function isURLBlocked(urlString, blockedSites) {
+  try {
+    const currentURL = new URL(urlString);
+    const hostname = currentURL.hostname;
+    const pathname = currentURL.pathname;
+
+    return blockedSites.some((blockedSite) => {
+      const site = blockedSite.trim();
+      if (!site) return false;
+
+      try {
+        const blockedURL = new URL(site);
+        return (
+          hostname === blockedURL.hostname &&
+          pathname.startsWith(blockedURL.pathname)
+        );
+      } catch (e) {
+        return hostname === site || hostname.endsWith('.' + site);
+      }
+    });
+  } catch (e) {
+    return false;
+  }
+}
+
 if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.sync) {
   chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
@@ -11,14 +36,16 @@ if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.sync) {
     if (changeInfo.status === 'complete') {
       chrome.storage.sync.get('blockedSites', function (data) {
         const blockedSites = data.blockedSites || [];
-        const url = new URL(tab.url);
-        const hostname = url.hostname;
-        const isBlocked = blockedSites.some(
-          (site) => hostname.includes(site) && !hostname.includes('youtube.com')
-        );
+        const url = tab.url;
 
-        if (isBlocked) {
-          chrome.tabs.update(tabId, { url: 'blocked.html' });
+        if (
+          isURLBlocked(url, blockedSites) &&
+          !url.includes('youtube.com') &&
+          !url.endsWith('blocked.html')
+        ) {
+          chrome.tabs.update(tabId, {
+            url: chrome.runtime.getURL('blocked.html')
+          });
         }
       });
     }

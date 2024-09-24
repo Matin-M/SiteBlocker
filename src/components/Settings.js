@@ -123,7 +123,7 @@ const Settings = ({ setViewSettings }) => {
           fontWeight={'bold'}
           fontFamily={'monospace'}
         >
-          Blocking hours
+          Blocking Hours
         </Typography>
         <Box
           sx={{
