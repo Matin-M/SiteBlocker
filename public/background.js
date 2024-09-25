@@ -34,18 +34,48 @@ if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.sync) {
 
   chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
     if (changeInfo.status === 'complete') {
-      chrome.storage.sync.get('blockedSites', function (data) {
+      chrome.storage.sync.get(['blockedSites', 'blockTimes'], function (data) {
         const blockedSites = data.blockedSites || [];
-        const url = tab.url;
+        const blockTimes = data.blockTimes || {};
 
-        if (
-          isURLBlocked(url, blockedSites) &&
-          !url.includes('youtube.com') &&
-          !url.endsWith('blocked.html')
-        ) {
-          chrome.tabs.update(tabId, {
-            url: chrome.runtime.getURL('blocked.html')
-          });
+        const now = new Date();
+        const currentTime = now.getHours() * 60 + now.getMinutes();
+
+        const { startTime, endTime } = blockTimes;
+        if (startTime && endTime) {
+          const [startHours, startMinutes] = startTime.split(':').map(Number);
+          const [endHours, endMinutes] = endTime.split(':').map(Number);
+          const startTimeInMinutes = startHours * 60 + startMinutes;
+          const endTimeInMinutes = endHours * 60 + endMinutes;
+
+          if (
+            currentTime >= startTimeInMinutes &&
+            currentTime <= endTimeInMinutes
+          ) {
+            const url = tab.url;
+
+            if (
+              isURLBlocked(url, blockedSites) &&
+              !url.includes('youtube.com') &&
+              !url.endsWith('blocked.html')
+            ) {
+              chrome.tabs.update(tabId, {
+                url: chrome.runtime.getURL('blocked.html')
+              });
+            }
+          }
+        } else {
+          const url = tab.url;
+
+          if (
+            isURLBlocked(url, blockedSites) &&
+            !url.includes('youtube.com') &&
+            !url.endsWith('blocked.html')
+          ) {
+            chrome.tabs.update(tabId, {
+              url: chrome.runtime.getURL('blocked.html')
+            });
+          }
         }
       });
     }
