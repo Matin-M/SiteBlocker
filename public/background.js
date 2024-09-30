@@ -1,3 +1,5 @@
+importScripts('utils.js');
+
 function isURLBlocked(urlString, blockedSites) {
   try {
     const currentURL = new URL(urlString);
@@ -43,15 +45,7 @@ if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.sync) {
 
         const { startTime, endTime } = blockTimes;
         if (startTime && endTime) {
-          const [startHours, startMinutes] = startTime.split(':').map(Number);
-          const [endHours, endMinutes] = endTime.split(':').map(Number);
-          const startTimeInMinutes = startHours * 60 + startMinutes;
-          const endTimeInMinutes = endHours * 60 + endMinutes;
-
-          if (
-            currentTime >= startTimeInMinutes &&
-            currentTime <= endTimeInMinutes
-          ) {
+          if (isWithinTime(startTime, endTime)) {
             const url = tab.url;
 
             if (
