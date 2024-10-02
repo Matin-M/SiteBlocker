@@ -1,7 +1,10 @@
-// utils.js
-
 (function (global) {
   function isWithinTime(startTime, endTime) {
+
+    if (!startTime || !endTime) {
+      return false;
+    }
+
     const now = new Date();
     const currentTime = now.getHours() * 60 + now.getMinutes();
 

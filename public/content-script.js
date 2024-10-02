@@ -17,13 +17,10 @@ function handlePageLoad() {
     ['blockedSites', 'blockTimes'],
     function (result) {
       const blockTimes = result.blockTimes || {};
-      const { startTime, endTime } = blockTimes;
-      if (startTime && endTime && isWithinTime(startTime, endTime)) {
-        getBrowser().runtime.sendMessage({ action: 'blockPage' });
-      }
-
       const blockedSites = result.blockedSites || [];
       if (blockedSites.includes('youtube.com')) {
+        const { startTime, endTime } = blockTimes;
+
         const observer = new MutationObserver((mutations, obs) => {
           const channelNameElement = document.querySelector(
             'a.yt-simple-endpoint.style-scope.yt-formatted-string'
@@ -34,7 +31,7 @@ function handlePageLoad() {
               ['allowedChannels'],
               function (result) {
                 const allowedChannels = result.allowedChannels || [];
-                if (!allowedChannels.includes(channelName)) {
+                if (!allowedChannels.includes(channelName) && isWithinTime(startTime, endTime)) {
                   getBrowser().runtime.sendMessage({ action: 'blockPage' });
                 }
               }

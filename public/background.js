@@ -40,9 +40,6 @@ if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.sync) {
         const blockedSites = data.blockedSites || [];
         const blockTimes = data.blockTimes || {};
 
-        const now = new Date();
-        const currentTime = now.getHours() * 60 + now.getMinutes();
-
         const { startTime, endTime } = blockTimes;
         if (startTime && endTime) {
           if (isWithinTime(startTime, endTime)) {
