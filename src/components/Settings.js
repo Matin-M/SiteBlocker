@@ -141,7 +141,8 @@ const Settings = ({ setViewSettings }) => {
               handleTimeChange(newValue, endTime);
             }}
             views={['hours', 'minutes']}
-            format="HH:mm"
+            format="hh:mm A"
+            ampm={true}
           />
           <TimePicker
             label="End Time"
@@ -151,7 +152,8 @@ const Settings = ({ setViewSettings }) => {
               handleTimeChange(startTime, newValue);
             }}
             views={['hours', 'minutes']}
-            format="HH:mm"
+            format="hh:mm A"
+            ampm={true}
           />
           <Button
             variant="outlined"
