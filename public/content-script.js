@@ -20,18 +20,30 @@ function handlePageLoad() {
       const blockedSites = result.blockedSites || [];
       if (blockedSites.includes('youtube.com')) {
         const { startTime, endTime } = blockTimes;
+        if (!isWithinTime(startTime, endTime)) {
+          return;
+        }
 
         const observer = new MutationObserver((mutations, obs) => {
           const channelNameElement = document.querySelector(
             'a.yt-simple-endpoint.style-scope.yt-formatted-string'
           );
           if (channelNameElement) {
-            const channelName = channelNameElement.textContent.trim();
+            const channelName = channelNameElement.textContent
+              .trim()
+              .toLowerCase();
             getBrowser().storage.sync.get(
               ['allowedChannels'],
               function (result) {
                 const allowedChannels = result.allowedChannels || [];
-                if (!allowedChannels.includes(channelName) && isWithinTime(startTime, endTime)) {
+                let isAllowed = false;
+                allowedChannels.forEach((channel) => {
+                  if (channel.includes(channelName.trim().toLowerCase())) {
+                    isAllowed = true;
+                    return;
+                  }
+                });
+                if (!isAllowed) {
                   getBrowser().runtime.sendMessage({ action: 'blockPage' });
                 }
               }

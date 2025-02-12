@@ -90,10 +90,10 @@ const Settings = ({ setViewSettings }) => {
           fontWeight={'bold'}
           fontFamily={'monospace'}
         >
-          YT Channel Whitelisting
+          Channel Whitelist
         </Typography>
         <TextField
-          label="Enter a channel name"
+          label="Enter YT channel name"
           variant="outlined"
           fullWidth
           value={newChannel}
